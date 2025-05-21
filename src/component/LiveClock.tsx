@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 
 export default function LiveClock() {
-  const [time, setTime] = useState<string>(format(new Date(), 'HH:mm:ss'));
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(format(new Date(), 'HH:mm:ss'));
+      setTime(new Date().toLocaleTimeString());
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="p-6 bg-blue-50 rounded-lg">
-      <h2 className="text-xl font-semibold">Live Clock</h2>
-      <p className="text-2xl mt-2">{time}</p>
+    <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+      <h2 className="text-xl text-purple-400">Live Clock</h2>
+      <p className="text-3xl font-mono text-white mt-2">{time}</p>
     </div>
   );
 }

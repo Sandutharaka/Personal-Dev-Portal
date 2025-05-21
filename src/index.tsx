@@ -2,15 +2,21 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
-// 1. Get the root element
+// 1. Safely get the root element
 const container = document.getElementById('root');
 
-// 2. Create a root
-const root = createRoot(container!); // The ! tells TypeScript we know it exists
+// 2. Type check and error handling
+if (!container) {
+  throw new Error("Failed to find the root element");
+}
 
-// 3. Render your app
+// 3. Create root with proper typing
+const root = createRoot(container);
+
+// 4. Render your app
 root.render(
   <StrictMode>
     <App />
   </StrictMode>
 );
+

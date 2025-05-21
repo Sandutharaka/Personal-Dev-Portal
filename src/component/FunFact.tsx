@@ -1,40 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 
-// Define the response interface
-interface FactResponse {
-  text: string;
-  // Add other fields if needed
-}
-
-const FunFact = () => {
-  const [fact, setFact] = useState<string>('Loading...');
+export default function RandomFact() {
+  const [fact, setFact] = useState('Click the button to get a fact!');
+  const [loading, setLoading] = useState(false);
 
   const fetchFact = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get<FactResponse>('https://uselessfacts.jsph.pl/random.json?language=en');
-      setFact(response.data.text);
+      const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
+      const data = await response.json();
+      setFact(data.text);
     } catch (error) {
-      setFact('Failed to fetch fact.');
+      setFact('Failed to load fact');
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchFact();
-  }, []);
-
   return (
-    <div className="p-6 bg-green-100 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold">Random Fun Fact</h2>
-      <p className="mt-2 italic">{fact}</p>
-      <button
+    <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+      <h2 className="text-xl text-green-400">Random Fact</h2>
+      <p className="text-gray-300 my-4">{fact}</p>
+      <button 
         onClick={fetchFact}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg"
+        disabled={loading}
       >
-        Refresh Fact
+        {loading ? 'Loading...' : 'New Fact'}
       </button>
     </div>
   );
-};
-
-export default FunFact;
+}

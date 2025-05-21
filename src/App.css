@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.glow-card {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-card:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+}
